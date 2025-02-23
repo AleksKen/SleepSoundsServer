@@ -9,7 +9,7 @@ data class Playlist(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    var imagePath: String,
+    var imagePath: String = "",
 
     @Column(nullable = false)
     var name: String,
