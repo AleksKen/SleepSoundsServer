@@ -26,9 +26,9 @@ class UserService(
         return userMapper.map(user)
     }
 
-    fun show(id: Long): UserDTO {
+    fun findUserByEmail(email: String): UserDTO {
         return userMapper.map(
-            userRepository.findById(id)
-                .orElseThrow { ResourceNotFoundException("User with id $id not found!") })
+        userRepository.findByEmail(email)
+            .orElseThrow{ ResourceNotFoundException("User with email $email not found!") })
     }
 }

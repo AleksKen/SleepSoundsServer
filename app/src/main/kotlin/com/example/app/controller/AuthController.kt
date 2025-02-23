@@ -32,16 +32,20 @@ class AuthController {
         logger.warn(authRequest.password)
         val authentication = UsernamePasswordAuthenticationToken(authRequest.email, authRequest.password)
         authenticationManager.authenticate(authentication)
-        return AuthResponse(jwtUtils.generateToken(authRequest.email))
+        val user = userService.findUserByEmail(authRequest.email)
+        return AuthResponse(user.email, user.firstName, user.lastName, jwtUtils.generateToken(authRequest.email))
     }
 
     @PostMapping("/register")
     fun register(@RequestBody request: UserCreateDTO): AuthResponse {
         val userDTO = userService.registerUser(request)
-        return AuthResponse(jwtUtils.generateToken(userDTO.email))
+        return AuthResponse(userDTO.email, userDTO.firstName, userDTO.lastName, jwtUtils.generateToken(userDTO.email))
     }
 
     data class AuthResponse(
+        val email: String,
+        val firstName: String,
+        val lastName: String,
         val token: String
     )
 }
