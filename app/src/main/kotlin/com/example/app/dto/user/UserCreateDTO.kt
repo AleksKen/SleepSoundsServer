@@ -14,5 +14,7 @@ data class UserCreateDTO(
 
     @field:Size(min = 3)
     @field:NotBlank
-    var password: String = ""
+    var password: String = "",
+
+    var playlistIds: MutableSet<Long> = mutableSetOf()
 )

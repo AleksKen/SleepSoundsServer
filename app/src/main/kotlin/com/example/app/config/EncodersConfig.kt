@@ -24,21 +24,21 @@ class EncodersConfig {
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
     @Bean
+    fun rsaKeyPair(): KeyPair {
+        val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
+        keyPairGenerator.initialize(2048)  // Установите размер ключа, например 2048 бит
+        return keyPairGenerator.generateKeyPair()
+    }
+
+    @Bean
     fun jwtEncoder(): JwtEncoder {
-        val rsaKeys = generateRsaKeyPair()
-        val jwk = RSAKey.Builder(rsaKeys.public as RSAPublicKey).privateKey(rsaKeys.private as RSAPrivateKey).build()
+        val jwk = RSAKey.Builder(rsaKeyPair().public as RSAPublicKey).privateKey(rsaKeyPair().private as RSAPrivateKey).build()
         return NimbusJwtEncoder(ImmutableJWKSet(JWKSet(jwk)))
     }
 
     @Bean
     fun jwtDecoder(): JwtDecoder {
-        val rsaKeys = generateRsaKeyPair()
-       return NimbusJwtDecoder.withPublicKey(rsaKeys.public as RSAPublicKey).build()
+       return NimbusJwtDecoder.withPublicKey(rsaKeyPair().public as RSAPublicKey).build()
     }
 
-    private fun generateRsaKeyPair(): KeyPair {
-        val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
-        keyPairGenerator.initialize(2048)  // Установите размер ключа, например 2048 бит
-        return keyPairGenerator.generateKeyPair()
-    }
 }

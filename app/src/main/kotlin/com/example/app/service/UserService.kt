@@ -21,7 +21,9 @@ class UserService(
     private val logger = LoggerFactory.getLogger(UserService::class.java)
 
     fun registerUser(userCreateDTO: UserCreateDTO): UserDTO {
+        logger.warn(userCreateDTO.toString())
         val user: User = userMapper.map(userCreateDTO)
+        logger.warn(user.toString())
         userRepository.save(user)
         return userMapper.map(user)
     }

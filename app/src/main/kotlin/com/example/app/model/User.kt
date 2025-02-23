@@ -18,7 +18,12 @@ data class User(
     var lastName: String = "",
 
     @Column(nullable = false)
-    private var password: String
+    private var password: String,
+
+    @ManyToMany
+    var playlists: MutableSet<Playlist> = mutableSetOf(),
+
+
 ) : UserDetails, BaseEntity {
     override fun getAuthorities(): Collection<GrantedAuthority> = listOf()
     override fun getPassword() = password

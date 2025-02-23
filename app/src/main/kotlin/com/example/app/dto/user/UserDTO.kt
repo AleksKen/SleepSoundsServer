@@ -6,4 +6,5 @@ data class UserDTO(
     var email: String = "",
     var firstName: String = "",
     var lastName: String = "",
+    var playlistIds: MutableSet<Long>
 )
