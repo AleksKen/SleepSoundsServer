@@ -24,4 +24,14 @@ data class Song(
     @ManyToMany
     var playlists: MutableSet<Playlist> = mutableSetOf()
 
-) : BaseEntity
+) : BaseEntity {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Song) return false
+        return id != null && id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
+}

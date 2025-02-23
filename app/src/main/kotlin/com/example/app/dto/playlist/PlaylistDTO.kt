@@ -11,5 +11,7 @@ data class PlaylistDTO(
 
     var genre: String,
 
-    var songIds: MutableSet<Long> = mutableSetOf()
+    var songIds: MutableSet<Long> = mutableSetOf(),
+
+    var userIds: MutableSet<Long> = mutableSetOf()
 )

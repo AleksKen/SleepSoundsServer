@@ -13,5 +13,7 @@ data class PlaylistCreateDTO(
     @NotBlank
     var genre: String,
 
-    var songIds: MutableSet<Long> = mutableSetOf()
+    var songIds: MutableSet<Long> = mutableSetOf(),
+
+    var userIds: MutableSet<Long> = mutableSetOf()
 )
