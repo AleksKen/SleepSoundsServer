@@ -1,21 +1,34 @@
 package com.example.app.service
 
+import com.example.app.dto.user.UserCreateDTO
+import com.example.app.dto.user.UserDTO
+import com.example.app.exception.ResourceNotFoundException
+import com.example.app.mapper.UserMapper
 import com.example.app.model.User
 import com.example.app.repository.UserRepository
-import org.springframework.security.crypto.password.PasswordEncoder
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
-class UserService(private val userRepository: UserRepository, private val passwordEncoder: PasswordEncoder) {
+class UserService(
+    private val userRepository: UserRepository,
+) {
 
-    fun registerUser(email: String, password: String): User {
-        if (userRepository.findByEmail(email).isPresent) {
-            throw IllegalArgumentException("User already exists")
-        }
-        val hashedPassword = passwordEncoder.encode(password)
-        return userRepository.save(User(email = email, password = hashedPassword))
+    @Autowired
+    private lateinit var userMapper: UserMapper
+
+    private val logger = LoggerFactory.getLogger(UserService::class.java)
+
+    fun registerUser(userCreateDTO: UserCreateDTO): UserDTO {
+        val user: User = userMapper.map(userCreateDTO)
+        userRepository.save(user)
+        return userMapper.map(user)
     }
 
-    fun findByEmail(email: String): Optional<User> = userRepository.findByEmail(email)
+    fun show(id: Long): UserDTO {
+        return userMapper.map(
+            userRepository.findById(id)
+                .orElseThrow { ResourceNotFoundException("User with id $id not found!") })
+    }
 }

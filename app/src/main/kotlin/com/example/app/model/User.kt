@@ -11,15 +11,15 @@ data class User(
     val id: Long? = null,
 
     @Column(unique = true, nullable = false)
-    val email: String,
+    var email: String,
 
-//    val firstName: String,
-//
-//    val lastName: String,
+    var firstName: String = "",
+
+    var lastName: String = "",
 
     @Column(nullable = false)
-    private val password: String
-) : UserDetails {
+    private var password: String
+) : UserDetails, BaseEntity {
     override fun getAuthorities(): Collection<GrantedAuthority> = listOf()
     override fun getPassword() = password
     override fun getUsername() = email
