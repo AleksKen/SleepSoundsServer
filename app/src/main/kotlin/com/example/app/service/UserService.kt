@@ -1,8 +1,10 @@
 package com.example.app.service
 
+import com.example.app.dto.playlist.PlaylistDTO
 import com.example.app.dto.user.UserCreateDTO
 import com.example.app.dto.user.UserDTO
 import com.example.app.exception.ResourceNotFoundException
+import com.example.app.mapper.PlaylistMapper
 import com.example.app.mapper.UserMapper
 import com.example.app.model.User
 import com.example.app.repository.PlaylistRepository
@@ -16,6 +18,9 @@ class UserService {
 
     @Autowired
     private lateinit var userMapper: UserMapper
+
+    @Autowired
+    private lateinit var playlistMapper: PlaylistMapper
 
     @Autowired
     private lateinit var userRepository: UserRepository
@@ -74,5 +79,12 @@ class UserService {
         return userMapper.map(
             userRepository.findById(id)
                 .orElseThrow { ResourceNotFoundException("User with id $id not found!") })
+    }
+
+    fun getFavourites(userId: Long): List<PlaylistDTO> {
+        val user = userRepository.findById(userId)
+            .orElseThrow { ResourceNotFoundException("User with id $userId not found!") }
+
+        return user.playlists.stream().map(playlistMapper::map).toList()
     }
 }

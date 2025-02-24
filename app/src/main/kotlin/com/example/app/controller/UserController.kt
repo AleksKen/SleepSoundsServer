@@ -1,5 +1,6 @@
 package com.example.app.controller
 
+import com.example.app.dto.playlist.PlaylistDTO
 import com.example.app.dto.user.UserDTO
 import com.example.app.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -40,5 +41,11 @@ class UserController {
     ): ResponseEntity<String> {
         userService.removePlaylistFromUser(userId, playlistId)
         return ResponseEntity.ok("Playlist removed from user")
+    }
+
+    @GetMapping("/{userId}/playlists")
+    fun getFavourites(@PathVariable userId: Long): ResponseEntity<List<PlaylistDTO>> {
+        val favourites: List<PlaylistDTO> = userService.getFavourites(userId)
+        return ResponseEntity.ok(favourites)
     }
 }
