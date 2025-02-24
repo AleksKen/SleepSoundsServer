@@ -47,6 +47,7 @@ dependencies {
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.h2database:h2")
 	annotationProcessor("org.projectlombok:lombok")
+	implementation("org.postgresql:postgresql:42.7.3")
 
 	// for update
 	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
