@@ -1,4 +1,5 @@
 plugins {
+	id ("application")
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.4.3"
@@ -14,6 +15,10 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
+}
+
+application {
+	mainClass = "com.example.app.AppApplication"
 }
 
 configurations {

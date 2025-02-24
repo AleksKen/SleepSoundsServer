@@ -4,12 +4,6 @@ logging:
     root: WARN
 
 spring:
-  datasource:
-    url: "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE"
-    username: "sa"
-    password: ""
-  h2:
-    console.enabled: true
   jpa:
     generate-ddl: true
     show-sql: true
